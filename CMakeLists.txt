@@ -21,3 +21,16 @@ if(BUILD_SHARED_LIBS)
   target_compile_definitions(greeter_lib PRIVATE GREETER_EXPORTS) 
   target_compile_definitions(greeter_lib INTERFACE GREETER_IMPORTS) 
 endif()
+
+# INSTALLATION TARGET
+install(TARGETS greeter_lib
+	        RUNTIME DESTINATION bin 
+	        ARCHIVE DESTINATION lib
+	        LIBRARY DESTINATION lib
+)
+
+# copy public include files
+install(FILES 
+	include/greeter/config.hpp
+	include/greeter/greeter.hpp
+	DESTINATION include/greeter)
