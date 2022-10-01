@@ -6,3 +6,6 @@ build_release
 *.so
 *.obj
 *.dll
+*.exp
+*.lib
+*.exe

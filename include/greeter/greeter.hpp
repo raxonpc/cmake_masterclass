@@ -3,4 +3,6 @@
 #include <string>
 #include "greeter/config.hpp"
 
-GREETER_API std::string greetings(const std::string& name);
+namespace greeter {
+    GREETER_API std::string greetings(const std::string& name);
+}
