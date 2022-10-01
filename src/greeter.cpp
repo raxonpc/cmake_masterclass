@@ -1,4 +1,4 @@
-#include "greeter.hpp"
+#include "greeter/greeter.hpp"
 
 std::string greetings(const std::string& name)
 {
