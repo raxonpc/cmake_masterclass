@@ -50,6 +50,11 @@ install(TARGETS greeter_lib EXPORT greeter_export
                 INCLUDES DESTINATION include
 )
 
+export(EXPORT greeter_export
+        FILE greeter_lib-config.cmake
+        NAMESPACE sample::
+)
+
 # copy public include files
 install(FILES 
 	include/greeter/config.hpp
