@@ -31,7 +31,7 @@ target_include_directories(greeter_lib PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
  	$<INSTALL_INTERFACE:include>
 )
-target_link_libraries(greeter_lib fmt::fmt)
+target_link_libraries(greeter_lib PRIVATE fmt::fmt)
 
 add_executable(main main.cpp)
 target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -43,10 +43,11 @@ if(GREETER_SHARED)
 endif()
 
 # INSTALLATION TARGET
-install(TARGETS greeter_lib
+install(TARGETS greeter_lib EXPORT greeter_export
 	        RUNTIME DESTINATION bin 
 	        ARCHIVE DESTINATION lib
 	        LIBRARY DESTINATION lib
+                INCLUDES DESTINATION include
 )
 
 # copy public include files
@@ -54,3 +55,9 @@ install(FILES
 	include/greeter/config.hpp
 	include/greeter/greeter.hpp
 	DESTINATION include/greeter)
+
+# create export file which can be imported by other cmake projects
+install(EXPORT greeter_export
+        NAMESPACE sample::
+        DESTINATION lib/cmake/greeter_lib
+)
