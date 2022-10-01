@@ -58,6 +58,7 @@ install(FILES
 
 # create export file which can be imported by other cmake projects
 install(EXPORT greeter_export
+        FILE greeter_lib-config.cmake
         NAMESPACE sample::
         DESTINATION lib/cmake/greeter_lib
 )
