@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.8)
 project(greeter)
 
 option(GREETER_EXAMPLE "Build an example" OFF)
+option(GREETER_INSTALL "Install greeter" OFF)
 option(GREETER_SHARED "Build greeter as shared_library" BUILD_SHARED_LIBS)
 if(GREETER_SHARED)
         set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -26,6 +27,7 @@ if(GREETER_SHARED)
 else()
         add_library(greeter_lib STATIC ${GREETER_SOURCES})
 endif()
+add_library(sample::greeter_lib ALIAS greeter_lib)
 
 target_include_directories(greeter_lib PUBLIC 
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -42,28 +44,25 @@ if(GREETER_SHARED)
   target_compile_definitions(greeter_lib INTERFACE GREETER_IMPORTS) 
 endif()
 
-# INSTALLATION TARGET
-install(TARGETS greeter_lib EXPORT greeter_export
-	        RUNTIME DESTINATION bin 
-	        ARCHIVE DESTINATION lib
-	        LIBRARY DESTINATION lib
-                INCLUDES DESTINATION include
-)
+if(GREETER_INSTALL)
+        # INSTALLATION TARGET
+        install(TARGETS greeter_lib EXPORT greeter_export
+                        RUNTIME DESTINATION bin 
+                        ARCHIVE DESTINATION lib
+                        LIBRARY DESTINATION lib
+                        INCLUDES DESTINATION include
+        )
 
-export(EXPORT greeter_export
-        FILE greeter_lib-config.cmake
-        NAMESPACE sample::
-)
+        # copy public include files
+        install(FILES 
+                include/greeter/config.hpp
+                include/greeter/greeter.hpp
+                DESTINATION include/greeter)
 
-# copy public include files
-install(FILES 
-	include/greeter/config.hpp
-	include/greeter/greeter.hpp
-	DESTINATION include/greeter)
-
-# create export file which can be imported by other cmake projects
-install(EXPORT greeter_export
-        FILE greeter_lib-config.cmake
-        NAMESPACE sample::
-        DESTINATION lib/cmake/greeter_lib
-)
+        # create export file which can be imported by other cmake projects
+        install(EXPORT greeter_export
+                FILE greeter_lib-config.cmake
+                NAMESPACE sample::
+                DESTINATION lib/cmake/greeter_lib
+        )
+endif()
