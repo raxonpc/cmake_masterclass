@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 
 project(greeter)
 
+option(GREETER_EXAMPLE "Build an example" OFF)
 option(GREETER_SHARED "Build greeter as shared_library" BUILD_SHARED_LIBS)
 if(GREETER_SHARED)
         set(CMAKE_POSITION_INDEPENDENT_CODE ON)
