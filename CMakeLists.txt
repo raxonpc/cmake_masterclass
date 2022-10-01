@@ -25,7 +25,11 @@ if(GREETER_SHARED)
 else()
         add_library(greeter_lib STATIC ${GREETER_SOURCES})
 endif()
-target_include_directories(greeter_lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+target_include_directories(greeter_lib PUBLIC 
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+ 	$<INSTALL_INTERFACE:include>
+)
 target_link_libraries(greeter_lib fmt::fmt)
 
 add_executable(main main.cpp)
